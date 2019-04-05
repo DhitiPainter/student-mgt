@@ -1,9 +1,7 @@
 import mongoose from 'mongoose';
 import { DbModel } from './../../common/constant';
 
-const Schema = mongoose.Schema;
-
-const schema = new Schema({
+const userSchema = new mongoose.Schema({
     userName: { type: String, unique: true, required: true },
     hash: { type: String, required: true },
     firstName: { type: String, required: true },
@@ -12,6 +10,8 @@ const schema = new Schema({
     createdDate: { type: Date, default: Date.now }
 });
 
-schema.set('toJSON', { virtuals: true });
+userSchema.set('toJSON', { virtuals: true });
 
-export default mongoose.model(DbModel.user, schema);
+const UserModel = mongoose.model(DbModel.user, userSchema);
+
+export default UserModel;

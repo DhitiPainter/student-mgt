@@ -1,18 +1,24 @@
-// tslint:disable-next-line: no-var-requires
-// const validate = require('express-validation');
-// import * as c from '../../controllers/user.controller';
+import UserController from '../../controllers/user.controller';
 
+export const auth = (router: any) => {
+    router.post(
+        '/register',
+        async (req: any, res: any, next: any) => {
+            const userController = new UserController();
+            const response = await userController.registerUser(req.body);
+            return res.send(response); // .status(response.status)
+        },
+    );
 
-// export const auth = (router: any) => {
-//     router.post(
-//         '/registerUser',
-//         // validate(registerUser),
-//         async (req: any, res: any, next: any) => {
-//             // const userController = new UserController();
-//             const response = await c.registerUser(req.body);
-//             return res.status(response.status).send(response);
-//         }
-//     );
-// }
+    router.post(
+        '/authenticate',
+        // validate(registerUser),
+        async (req: any, res: any, next: any) => {
+            const userController = new UserController();
+            const response = await userController.authenticate(req.body);
+            return res.send(response); // .status(response.status)
+        },
+    );
+};
 
-// export default auth;
+export default auth;

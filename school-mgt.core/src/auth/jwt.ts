@@ -1,6 +1,6 @@
 import expressJwt from 'express-jwt';
-import { jwtSecret } from './../common/constant';
 import * as userService from '../db/service/user.service';
+import { jwtSecret } from './../common/constant';
 
 export function jwt() {
     const secret = jwtSecret;
@@ -8,8 +8,8 @@ export function jwt() {
         path: [
             // public routes that don't require authentication
             '/auth/authenticate',
-            '/auth/register'
-        ]
+            '/auth/register',
+        ],
     });
 }
 
@@ -22,6 +22,6 @@ async function isRevoked(req: any, payload: any, done: any) {
     }
 
     done();
-};
+}
 
 export default jwt();
