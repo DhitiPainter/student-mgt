@@ -1,5 +1,6 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { connect } from "react-redux";
+import * as userActions from "./../store/actions/userActions";
 import LoginForm from './loginForm';
 
 class LoginContainer extends React.Component {
@@ -9,9 +10,11 @@ class LoginContainer extends React.Component {
     }
 
     public handleSubmit(values: any) {
-        const { dispatch } = this.props;
+        this.setState({ submitted: true });
+        const { dispatch }: any = this.props;
         if (values.userName && values.password) {
-            dispatch(userActions.login(values.userName, values.password));
+            const user = { userName: values.userName, password: values.password }
+            dispatch(userActions.login(user));
         }
     }
 
@@ -24,12 +27,13 @@ class LoginContainer extends React.Component {
     }
 }
 
-function mapStateToProps(state: any) {
-    const { loggingIn } = state.authentication;
-    return {
-        loggingIn
-    };
-}
+// function mapStateToProps(state: any) {
+//     const { loggingIn }: any = state.authentication;
+//     return {
+//         loggingIn
+//     };
+// }
 
-const connectedLoginPage = connect(null)(LoginContainer);
+const connectedLoginPage = connect()(LoginContainer);
 export { connectedLoginPage as LoginContainer };
+// export default connect()LoginContainer;

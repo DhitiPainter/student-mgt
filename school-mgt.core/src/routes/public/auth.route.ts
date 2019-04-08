@@ -5,7 +5,7 @@ export const auth = (router: any) => {
         '/register',
         async (req: any, res: any, next: any) => {
             const userController = new UserController();
-            const response = await userController.registerUser(req.body);
+            const response: any = await userController.registerUser(req.body);
             return res.send(response); // .status(response.status)
         },
     );

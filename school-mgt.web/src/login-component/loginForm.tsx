@@ -1,31 +1,31 @@
-import React, { Component } from 'react';
+import { Button } from 'primereact/button';
+import * as React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import './login.css';
 
 const LoginForm = (props: any) => {
     const { handleSubmit, pristine, reset, submitting } = props
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>User Name</label>
-                <div>
-                    <Field name="userName"
-                        component="input"
-                        type="text"
-                        placeholder="User Name" />
-                </div>
+            <div className="row">
+                <label>User Name&nbsp;</label>
+                <Field name="userName"
+                    component="input"
+                    type="text"
+                    placeholder="User Name" />
             </div>
+            <br />
             <div>
-                <label>Password</label>
-                <div>
-                    <Field name="password"
-                        component="input"
-                        type="password"
-                        placeholder="User Name" />
-                </div>
+                <label>Password&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                <Field name="password"
+                    component="input"
+                    type="password"
+                    placeholder="User Name" />
             </div>
+            <br />
             <div>
-                <button type="submit" disabled={pristine || submitting}>Submit</button>
-                <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+                <Button label="Submit" className="p-button-raised p-button-success" type="submit" disabled={pristine || submitting} />&nbsp;&nbsp;
+                <Button label="Clear Values" className="p-button-raised p-button-success" type="button" onClick={reset} disabled={pristine || submitting} />
             </div>
         </form>
     );

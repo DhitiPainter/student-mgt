@@ -21,8 +21,10 @@ export async function authenticate(userObject: User) {
             };
             if (user && userObject.password && bcrypt.compareSync(userObject.password, user.hash)) {
                 const token = jwt.sign({ sub: user.id }, jwtSecret);
-                return { user, token };
+                return { user, token, isAuthenticated: true, message: 'Logged in successfully!' };
             }
+        } else {
+            return { user: null, token: null, isAuthenticated: false, message: 'Invalid credentials' };
         }
     });
 }

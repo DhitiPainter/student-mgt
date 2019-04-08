@@ -1,12 +1,14 @@
-import { combineReducers, createStore } from "redux";
-import { reducer as formReducer } from 'redux-form';
+import { applyMiddleware, createStore } from "redux";
+import { createLogger } from "redux-logger";
+import thunkMiddleware from "redux-thunk";
+import { rootReducer } from "./reducers";
 
-// Combine all reducers
-const rootReducer = combineReducers({
-    form: formReducer
+// generate logs
+const loggerMiddleware = createLogger({
+    predicate: (getState, action) => !action.type.includes('@@redux-form')
 })
 
 // Generate store
-const store = createStore(rootReducer);
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, loggerMiddleware));
 
 export default store;
