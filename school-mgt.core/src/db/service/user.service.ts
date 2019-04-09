@@ -7,17 +7,16 @@ const UserModel = db.User;
 
 export async function authenticate(userObject: User) {
     let user: User = null;
-    console.log(userObject);
 
     return UserModel.findOne({ userName: userObject.userName }).exec().then((res: any) => {
         if (res) {
             user = {
                 firstName: res.firstName,
-                lastName: res.lastName,
-                userName: res.userName,
-                id: res.id,
-                role: res.role,
                 hash: res.hash,
+                id: res.id,
+                lastName: res.lastName,
+                role: res.role,
+                userName: res.userName,
             };
             if (user && userObject.password && bcrypt.compareSync(userObject.password, user.hash)) {
                 const token = jwt.sign({ sub: user.id }, jwtSecret);
@@ -39,16 +38,23 @@ export async function getById(id: number) {
 
 export async function create(userParam: User) {
     // validate
-    if (await UserModel.findOne({ username: userParam.userName }).exec()) {
-        throw new Error('Username "' + userParam.userName + '" is already taken');
-    }
-    const user: any = new UserModel(userParam);
-    // hash password
-    if (userParam.password) {
-        user.hash = bcrypt.hashSync(userParam.password, 10);
-    }
-    // save user
-    await user.save();
+    return UserModel.findOne({ userName: userParam.userName }).exec().then((res: any) => {
+        if (res) {
+            return { isUserExists: true };
+        }
+    }).then((isUserExists: any) => {
+        if (isUserExists) {
+            return { message: 'Username "' + userParam.userName + '" is already taken', isUserExists: true };
+        }
+        const user: any = new UserModel(userParam);
+        // hash password
+        if (userParam.password) {
+            user.hash = bcrypt.hashSync(userParam.password, 10);
+        }
+        // save user
+        user.save();
+        return { message: 'User "' + userParam.userName + '" created successfully', isUserExists: false };
+    });
 }
 
 export async function update(id: number, userParam: any) {

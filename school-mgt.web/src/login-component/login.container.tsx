@@ -27,13 +27,20 @@ class LoginContainer extends React.Component {
     }
 }
 
-// function mapStateToProps(state: any) {
-//     const { loggingIn }: any = state.authentication;
-//     return {
-//         loggingIn
-//     };
+function mapStateToProps(state: any, ownProps: any) {
+    // const { loggingIn }: any = state && state.authentication ? state.authentication : null;
+    // tslint:disable-next-line: no-console
+    console.log("state", state, "ownprops", ownProps);
+    return {
+        loggingIn: state && state.authentication ? state.authentication : null
+    };
+}
+
+// function mergeProps(state: any, dispatchProps: any, ownProps: any) {
+//     // tslint:disable-next-line: no-console
+//     console.log("state", state, "ownprops", ownProps, "dispatch", dispatchProps);
 // }
 
-const connectedLoginPage = connect()(LoginContainer);
+const connectedLoginPage = connect(mapStateToProps)(LoginContainer);
 export { connectedLoginPage as LoginContainer };
 // export default connect()LoginContainer;

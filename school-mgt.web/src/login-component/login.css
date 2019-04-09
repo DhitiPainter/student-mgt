@@ -1,0 +1,11 @@
+form{
+    text-align: center;
+}
+
+form>table{
+    padding-left: 26%;
+}
+
+td>select{
+    width: 100%;
+}

@@ -28,7 +28,6 @@ import * as userService from './../db/service/user.service';
 export default class UserController {
     public authenticate = async (user: User) => {
         try {
-            // console.log("Req body", req)
             return await userService.authenticate(user);
         } catch (error) {
             console.log(error);

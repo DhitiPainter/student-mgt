@@ -24,9 +24,15 @@
 }
 
 .content-section {
-  display: block;
+  position: relative;
+  width: 50%;
   padding: 30px;
   background-color: #f5f7f8;
+  margin-left: 25%;
+  margin-top: 10%;
+  border-radius: 50px;
+  border: 25px;
+  border-color: crimson;
 }
 
 .content-section.introduction {

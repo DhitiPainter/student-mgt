@@ -1,10 +1,11 @@
 import { Button } from 'primereact/button';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 import './login.css';
 
 const LoginForm = (props: any) => {
-    const { handleSubmit, pristine, reset, submitting } = props
+    const { handleSubmit, pristine, submitting } = props
     return (
         <form onSubmit={handleSubmit}>
             <div className="row">
@@ -20,12 +21,12 @@ const LoginForm = (props: any) => {
                 <Field name="password"
                     component="input"
                     type="password"
-                    placeholder="User Name" />
+                    placeholder="Password" />
             </div>
             <br />
             <div>
                 <Button label="Submit" className="p-button-raised p-button-success" type="submit" disabled={pristine || submitting} />&nbsp;&nbsp;
-                <Button label="Clear Values" className="p-button-raised p-button-success" type="button" onClick={reset} disabled={pristine || submitting} />
+                <Link to="/register" className="btn btn-link">Register</Link>
             </div>
         </form>
     );

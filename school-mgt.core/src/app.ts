@@ -12,8 +12,6 @@ import { jwt } from './auth/jwt';
 
 const whitelist = 'http://localhost:3000/'; // process.env.SITE_URL ? process.env.SITE_URL.split(',') : 
 export const corsOptionsDelegate = (req: any, callback: any) => {
-    console.log("lsttttt", req);
-
     let corsOptions;
     if (
         whitelist.indexOf(req.header('Origin')) !== -1 ||
