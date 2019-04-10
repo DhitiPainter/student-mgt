@@ -1,10 +1,16 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { Redirect } from 'react-router';
 import { toast } from "react-toastify";
 import { UserActions } from 'src/store/actions';
 import RegisterForm from "./registerForm";
 
-class RegisterContainer extends React.Component {
+interface IRegisterProps {
+    registerUser: any;
+    user: object;
+    isRegistered: boolean;
+}
+class RegisterContainer extends React.Component<IRegisterProps> {
     constructor(props: any) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -12,24 +18,19 @@ class RegisterContainer extends React.Component {
 
     public handleSubmit(values: any) {
         this.setState({ submitted: true });
-        const { dispatch }: any = this.props;
         if (values.password !== values.rePassword) {
             toast.error("Passwords must be same");
             return;
         }
         if (values.userName && values.password && values.role && values.lastName && values.firstName) {
-            const user = {
-                firstName: values.firstName,
-                lastName: values.lastName,
-                password: values.password,
-                role: values.role,
-                userName: values.userName,
-            }
-            dispatch(UserActions.register(user));
+            this.props.registerUser(this.props.user);
         }
     }
 
     public render() {
+        if (this.props.isRegistered) {
+            return (<Redirect to='/' />);
+        }
         return (
             <div>
                 <RegisterForm onSubmit={this.handleSubmit} {...this.props} />
@@ -39,12 +40,16 @@ class RegisterContainer extends React.Component {
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-    // tslint:disable-next-line: no-console
-    console.log("state", state, "ownprops", ownProps);
     return {
-        roles: state && state.roles ? state.roles : null
+        isRegistered: state && state.userReducer && state.userReducer.isRegistered ? state.userReducer.isRegistered : false,
+        user: state && state.form.registerForm && state.form.registerForm.values ? state.form.registerForm.values : {}
     };
 }
 
-const connectedRegisterPage = connect(mapStateToProps)(RegisterContainer);
+function mapDispatchToProps(dispatch: any, ownprops: any) {
+    const registerUser = (user: any) => dispatch(UserActions.register(user));
+    return { registerUser }
+}
+
+const connectedRegisterPage = connect(mapStateToProps, mapDispatchToProps)(RegisterContainer);
 export { connectedRegisterPage as RegisterContainer };

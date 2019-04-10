@@ -42,6 +42,13 @@ export function register(user: any) {
     }
 }
 
+export function logout() {
+    return (dispatch: any) => {
+        localStorageService.clearLocalStorage();
+        dispatch(event(userConstants.LOGOUT, "Logged out successfully"));
+    }
+}
+
 function event(actionType: any, data: any) {
     return {
         data, type: actionType

@@ -10,6 +10,7 @@
     "classnames": "^2.2.6",
     "moment": "^2.24.0",
     "node-sass-chokidar": "^1.3.4",
+    "npm-run-all": "^4.1.5",
     "primeicons": "^1.0.0",
     "primereact": "^3.1.2",
     "react": "^16.8.6",
@@ -24,12 +25,14 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive"
+    "build-css": "node-sass-chokidar src/app/layout/ -o src/app/layout/ | node-sass-chokidar public/assets/layout/ -o public/assets/layout/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/app/layout/ -o src/app/layout/ --watch --recursive | node-sass-chokidar public/assets/layout/ -o public/assets/layout/ --watch --recursive",
+    "start-ts": "react-scripts-ts start",
+    "start": "npm-run-all -p watch-css start-ts",
+    "build-ts": "react-scripts-ts build",
+    "build": "npm-run-all build-css build-ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.11",
