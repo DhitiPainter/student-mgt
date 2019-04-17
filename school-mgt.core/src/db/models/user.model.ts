@@ -10,10 +10,10 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     role: { type: Number, required: true },
     createdBy: { type: ObjectID, required: true },
-    updatedBy: { type: ObjectID, default: null },
+    updatedBy: { type: ObjectID },
     createdDate: { type: Date, default: Date.now },
-    updatedDate: { type: Date, default: Date.now },
-    userDetails: { type: ObjectID, default: null }
+    updatedDate: { type: Date },
+    userDetails: { type: ObjectID }
 });
 
 userSchema.set('toJSON', { virtuals: true });

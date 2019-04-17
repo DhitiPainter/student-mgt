@@ -36,25 +36,20 @@ export async function getAll() {
 }
 
 export async function getById(id: any) {
-    let profile: any = {};
-    return UserModel.findById(id).select('-hash').select('-__v').then((userData: any) => {
-        profile = userData.toObject();
-        if (userData.userDetails) {
-            return UserDetailsModel.findById(userData.userDetails).select('-__v').then((ud: any) => {
-                profile.userDetails = ud.toObject();
-                if (ud.class) {
-                    return ClassSectionModel.findById(ud.class).select('-__v').then((c: any) => {
-                        profile.userDetails.class = c.toObject();
-                        return { profile: profile };
-                    })
-                } else {
-                    return { profile: profile };
-                }
-            })
-        } else {
-            return { profile: profile };
+    try {
+        const user: any = id ? await UserModel.findById(id).select('-hash').select('-__v') : null;
+        const userDetail: any = user && user.userDetails ? await UserDetailsModel.findById(user.userDetails).select('-__v') : null;
+        const classSection: any = userDetail && userDetail.class ? await ClassSectionModel.findById(userDetail.class).select('-__v') : null;
+        let profile: any = {};
+        profile = user ? user.toObject() : {};
+        if (userDetail) {
+            profile.userDetails = userDetail.toObject();
+            profile.userDetails.class = classSection ? classSection.toObject() : {};
         }
-    })
+        return profile;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export async function create(userParam: User) {
