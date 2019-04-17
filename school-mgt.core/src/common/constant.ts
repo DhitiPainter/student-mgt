@@ -1,5 +1,8 @@
 export const DbModel = {
-    user: 'User'
+    role: 'role',
+    user: 'User',
+    userDetails: 'UserDetails',
+    classSection: 'ClassSection'
 }
 
 export const ConnectionString = "mongodb://localhost/school-mgt";

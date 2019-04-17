@@ -2,9 +2,16 @@
 //#region
 export const StudentMgtApi = "http://localhost:4000/";
 
+const auth = 'auth/';
+const api = 'api/';
+
 export const Auth = {
-    login: StudentMgtApi + 'auth/authenticate',
-    register: StudentMgtApi + 'auth/register'
+    login: StudentMgtApi + auth + 'authenticate',
+    register: StudentMgtApi + auth + 'register'
+}
+
+export const User = {
+    updateUserProfile: StudentMgtApi + api + 'updateUserDetails/{id}'
 }
 //#endregion
 

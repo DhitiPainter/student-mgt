@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import { DbModel } from './../../common/constant';
+import UserDetailsModel from './user-details.model';
+import { ObjectID } from 'bson';
 
 const userSchema = new mongoose.Schema({
     userName: { type: String, unique: true, required: true },
@@ -7,7 +9,11 @@ const userSchema = new mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     role: { type: Number, required: true },
-    createdDate: { type: Date, default: Date.now }
+    createdBy: { type: ObjectID, required: true },
+    updatedBy: { type: ObjectID, default: null },
+    createdDate: { type: Date, default: Date.now },
+    updatedDate: { type: Date, default: Date.now },
+    userDetails: { type: ObjectID, default: null }
 });
 
 userSchema.set('toJSON', { virtuals: true });

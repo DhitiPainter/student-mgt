@@ -41,4 +41,20 @@ export default class UserController {
             console.log(error);
         }
     }
+
+    public getUserProfile = async (userId: any) => {
+        try {
+            return await userService.getById(userId);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    public updateUserProfile = async (token: string, userId: any, user: any) => {
+        try {
+            return await userService.update(userId, user, token);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 }
