@@ -32,7 +32,7 @@ class RegisterContainer extends React.Component<IRegisterProps> {
             return (<Redirect to='/' />);
         }
         return (
-            <div>
+            <div className="login">
                 <RegisterForm onSubmit={this.handleSubmit} {...this.props} />
             </div>
         );

@@ -10,7 +10,7 @@ class DashboardComponent extends React.Component<IDashboard> {
     public render() {
         return (
             this.props.isAuthenticated
-                ? <div>Welcome to dashboard!!</div>
+                ? <div>Welcome to dashboard....................................................................!!</div>
                 : <Redirect to="/" />
         );
     }

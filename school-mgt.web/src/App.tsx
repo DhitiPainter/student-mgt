@@ -1,18 +1,18 @@
-import { Button } from 'primereact/button';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { ToastContainer } from "react-toastify";
 import './App.css';
-import { DashboardComponent } from './dashboard-component/DashboardComponent';
+import { DashboardComponent } from './app/dashboard-component/DashboardComponent';
+import { LayoutComponent } from './layout/layout.component';
 import { LoginContainer } from './login-component';
 import { RegisterContainer } from './register-component/';
-import * as userActions from "./store/actions/userActions";
+// import * as userActions from "./store/actions/userActions";
 
 interface IApp {
   isAuthenticated: boolean;
   user: any;
-  logoutUser: any;
+  // logoutUser: any;
 }
 
 class App extends React.Component<IApp> {
@@ -25,17 +25,13 @@ class App extends React.Component<IApp> {
       <div className="App">
         <ToastContainer />
         <header className="content-section introduction">
-          <h1 className="feature-intro">School Management System</h1>
+          {/* <h1 className="feature-intro">School Management System</h1> */}
           <Router>
-            <Route exact={true} path="/" component={LoginContainer} />
+            <Route exact={true} path="/" component={this.props.isAuthenticated ? LayoutComponent : LoginContainer} />
             <Route path="/login" component={LoginContainer} />
             <Route path="/register" component={RegisterContainer} />
             <Route path="/dashboard" component={DashboardComponent} />
-            {this.props.isAuthenticated
-              ? <span>
-                <Button label="Logout" className="p-button-raised p-button-success" onClick={this.props.logoutUser} />
-              </span>
-              : <span />}
+
           </Router>
         </header>
       </div>
@@ -50,10 +46,10 @@ function mapStateToProps(state: any) {
   };
 }
 
-function mapDispatchToProps(dispatch: any) {
-  const logoutUser = () => dispatch(userActions.logout());
-  return { logoutUser }
-}
+// function mapDispatchToProps(dispatch: any) {
+//   const logoutUser = () => dispatch(userActions.logout());
+//   return { logoutUser }
+// }
 
-const connectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
+const connectedApp = connect(mapStateToProps)(App);
 export { connectedApp as App };

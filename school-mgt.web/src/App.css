@@ -25,22 +25,23 @@
 
 .content-section {
   position: relative;
-  width: 50%;
-  padding: 30px;
+  /* width: 50%; */
+  /* padding: 30px; */
   background-color: #f5f7f8;
-  margin-left: 25%;
-  margin-top: 10%;
-  border-radius: 50px;
-  border: 25px;
-  border-color: crimson;
+  /* margin-left: 25%; */
+  /* margin-top: 10%; */
+  /* border-radius: 50px; */
+  /* border: 25px; */
+  /* border-color: crimson; */
+  height: 100vh;
 }
 
-.content-section.introduction {
+/* .content-section.introduction {
   background-color: #008fba !important;
   background-image: -webkit-linear-gradient(left,#008fba,#03c4e8)  !important;
-  background-image: linear-gradient(90deg,#008fba,#03c4e8)  !important;  
+  background-image: linear-gradient(120deg,#008fba,#03c4e8)  !important;  
   color: #fff;
-}
+} */
 
 @keyframes App-logo-spin {
   from {

@@ -1,10 +1,13 @@
 import mongoose from 'mongoose';
 import { DbModel } from './../../common/constant';
-import UserDetailsModel from './user-details.model';
 import { ObjectID } from 'bson';
+import validator from "validator";
 
 const userSchema = new mongoose.Schema({
-    userName: { type: String, unique: true, required: true },
+    userName: {
+        type: String, unique: true, required: true,
+        validate: { validator: validator.isEmail, message: '{value} is not valid' }
+    },
     hash: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },

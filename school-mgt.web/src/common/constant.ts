@@ -13,6 +13,11 @@ export const Auth = {
 export const User = {
     updateUserProfile: StudentMgtApi + api + 'updateUserDetails/{id}'
 }
+
+export const Core = {
+    getRoles: StudentMgtApi + api + 'roles',
+    getSidebarPanel: StudentMgtApi + api + 'sidebarPanel'
+}
 //#endregion
 
 // ACTION constants
@@ -32,6 +37,11 @@ export const alertConstants = {
     CLEAR: 'CLEAR',
     ERROR: 'ERROR',
     SUCCESS: 'SUCCESS'
+}
+
+export const coreConstants = {
+    getRoles: 'GET_ROLES',
+    getSidebarPanel: 'GET_SIDEBAR_PANEL'
 }
 //#endregion
 

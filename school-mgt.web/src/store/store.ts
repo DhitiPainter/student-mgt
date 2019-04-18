@@ -5,7 +5,8 @@ import { rootReducer } from "./reducers";
 
 // generate logs
 const loggerMiddleware = createLogger({
-    predicate: (getState, action) => !action.type.includes('@@redux-form')
+    predicate: (getState, action) => !action.type || !action.type.includes('@@redux-form')
+    // !action.type.includes('@@redux-form')
 })
 
 // Generate store

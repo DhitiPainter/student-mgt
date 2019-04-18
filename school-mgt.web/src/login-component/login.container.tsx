@@ -1,6 +1,5 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Redirect } from 'react-router';
 import * as userActions from "./../store/actions/userActions";
 import LoginForm from './loginForm';
 
@@ -25,11 +24,9 @@ class LoginContainer extends React.Component<ILoginProps> {
 
     public render() {
         return (
-            this.props.isAuthenticated
-                ? <Redirect to='/dashboard' />
-                : <div>
-                    <LoginForm onSubmit={this.handleSubmit} {...this.props} />
-                </div>
+            <div className="login">
+                <LoginForm onSubmit={this.handleSubmit} {...this.props} />
+            </div>
         );
     }
 }
