@@ -3,7 +3,9 @@ import * as React from 'react';
 
 const SideBar = (props: any) => {
     return (
-        <PanelMenu model={props.sideBarPanel} style={{ width: '300px' }} />
+        <div className="layout-sidebar">
+            <PanelMenu model={props.sideBarPanel} style={{ width: '300px' }} />
+        </div>
     );
 }
 

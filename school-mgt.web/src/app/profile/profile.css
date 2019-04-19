@@ -1,0 +1,42 @@
+.profile h2{
+text-align: left;
+margin-bottom: 0;
+margin-top: 0;
+}
+
+.profile form{
+    border: none;
+    width: 100%;  
+    margin: 0px;
+}
+
+.profile form table {
+    width: 100%;
+}
+
+.profile form table tr td button{
+    float: right;
+    margin: 5px;
+}
+
+.profile form table tr td label {
+    float: left;
+    font-weight: 400;
+    margin: 0px -30px 0px 15px;
+}
+
+.profile form table tr td:nth-child(1), .profile form table tr td:nth-child(3) {
+    min-width: 10%;
+}
+.profile form table tr td:nth-child(2), .profile form table tr td:nth-child(4) {
+    min-width: 40%;
+}
+
+.profile form table tr td:nth-child(2) input, 
+.profile form table tr td:nth-child(2) textarea, 
+.profile form table tr td:nth-child(4) input{
+    width: 100%;
+    float: right;     
+}
+
+
