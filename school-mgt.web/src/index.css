@@ -25,7 +25,7 @@ body a:hover {
   color: red;
 }
 
-input, textarea{
+input, textarea, select{
   font-size: 14px;
     color: #333333;
     background: #ffffff;
@@ -60,4 +60,20 @@ textarea{
   border-style: solid;  
   border-image: initial;
   padding: 2px;
+}
+
+select{
+  overflow: initial;
+  -webkit-appearance: menulist;
+    box-sizing: border-box;
+    align-items: center;
+    white-space: pre;
+    -webkit-rtl-ordering: logical;
+    color: black;
+    background-color: white;
+    cursor: default;
+    border-width: 1px;
+    border-style: solid;
+    /* border-color: initial; */
+    border-image: initial;
 }

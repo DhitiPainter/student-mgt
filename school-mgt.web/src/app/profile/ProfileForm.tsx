@@ -1,11 +1,12 @@
 import { Button } from 'primereact/button';
-// import { InputText } from 'primereact/inputtext';
-// import { InputTextarea } from 'primereact/inputtextarea';
 import * as React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { Roles } from "./../../common/enum";
+import * as enumHelper from "./../../common/enum.helper";
 import './profile.css';
 
 const ProfileForm = (props: any) => {
+    const roles = enumHelper.getNamesAndValues(Roles);
     const { handleSubmit, pristine, reset, submitting } = props
     return (
         <form onSubmit={handleSubmit}>
@@ -29,6 +30,19 @@ const ProfileForm = (props: any) => {
                                 component="input"
                                 type="text"
                                 placeholder="Last Name" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label>Role</label></td>
+                        <td>
+                            <Field name="role"
+                                component="select"
+                                placeholder="Select user role" >
+                                <option>-- select role --</option>
+                                {
+                                    roles.map((el: any) => <option value={el.value} key={el.value}> {el.name} </option>)
+                                }
+                            </Field>
                         </td>
                     </tr>
                     <tr>
@@ -118,5 +132,5 @@ const ProfileForm = (props: any) => {
 }
 
 export default reduxForm({
-    form: 'profileForm' // a unique identifier for this form
+    form: 'profileForm' // a unique identifier for this form    
 })(ProfileForm)

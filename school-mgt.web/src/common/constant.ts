@@ -43,6 +43,11 @@ export const coreConstants = {
     getRoles: 'GET_ROLES',
     getSidebarPanel: 'GET_SIDEBAR_PANEL'
 }
+
+export const profileConstants = {
+    getProfile: 'GET_PROFILE',
+    updateProfile: 'UPDATE_PROFILE'
+}
 //#endregion
 
 export const LocalStorage = {
