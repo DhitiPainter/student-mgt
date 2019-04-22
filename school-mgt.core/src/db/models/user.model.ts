@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
     role: { type: Number, required: true },
-    createdBy: { type: ObjectID, required: true },
+    createdBy: { type: ObjectID },
     updatedBy: { type: ObjectID },
     createdDate: { type: Date, default: Date.now },
     updatedDate: { type: Date },

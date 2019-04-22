@@ -1,15 +1,18 @@
 import { Button } from 'primereact/button';
 import * as React from 'react';
 import { Field, reduxForm } from 'redux-form';
+import { renderInput, renderSelect, renderTextarea } from "../../common/hocs/render-field.hoc";
+import { Section } from "./../../common/constant";
 import { Roles } from "./../../common/enum";
 import * as enumHelper from "./../../common/enum.helper";
+import * as validator from "./../../common/form-validator";
 import './profile.css';
 
 const ProfileForm = (props: any) => {
     const roles = enumHelper.getNamesAndValues(Roles);
-    const { handleSubmit, pristine, reset, submitting } = props
+    const { handleSubmit, pristine, reset, submitting, initialValues } = props
     return (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} defaultValue={initialValues} >
             <table>
                 <tbody>
                     <tr>
@@ -18,18 +21,21 @@ const ProfileForm = (props: any) => {
                         </td>
                         <td>
                             <Field name="firstName"
-                                component="input"
+                                component={renderInput}
                                 type="text"
-                                placeholder="First Name" />
+                                placeholder="First Name"
+                                validate={[validator.required, validator.maxLength50]}
+                                warn={validator.alphaNumeric} />
                         </td>
                         <td>
                             <label>Last Name</label>
                         </td>
                         <td>
                             <Field name="lastName"
-                                component="input"
+                                component={renderInput}
                                 type="text"
-                                placeholder="Last Name" />
+                                placeholder="Last Name"
+                                validate={[validator.required, validator.maxLength50]} />
                         </td>
                     </tr>
                     <tr>
@@ -37,12 +43,9 @@ const ProfileForm = (props: any) => {
                         <td>
                             <Field name="role"
                                 component="select"
-                                placeholder="Select user role" >
-                                <option>-- select role --</option>
-                                {
-                                    roles.map((el: any) => <option value={el.value} key={el.value}> {el.name} </option>)
-                                }
-                            </Field>
+                                placeholder="Select user role"
+                                options={roles}
+                                validate={validator.required} />
                         </td>
                     </tr>
                     <tr>
@@ -52,14 +55,15 @@ const ProfileForm = (props: any) => {
                         <td><label>Address 1</label></td>
                         <td>
                             <Field name="address1"
-                                component="input"
+                                component={renderInput}
                                 type="text"
-                                placeholder="Address line 1" />
+                                placeholder="Address line 1"
+                                validate={validator.required} />
                         </td>
                         <td><label>Address 2</label></td>
                         <td>
                             <Field name="address2"
-                                component="input"
+                                component={renderInput}
                                 type="text"
                                 placeholder="Address line 2" />
                         </td>
@@ -68,16 +72,18 @@ const ProfileForm = (props: any) => {
                         <td><label>Contact Number</label></td>
                         <td>
                             <Field name="number"
-                                component="input"
-                                type="number"
-                                placeholder="Contact number" />
+                                component={renderInput}
+                                type="text"
+                                placeholder="Contact number"
+                                validate={validator.phoneNumber} />
                         </td>
                         <td><label>Email</label></td>
                         <td>
                             <Field name="email"
-                                component="input"
+                                component={renderInput}
                                 type="text"
-                                placeholder="Email" />
+                                placeholder="Email"
+                                validate={validator.email} />
                         </td>
                     </tr>
                     <tr>
@@ -87,16 +93,17 @@ const ProfileForm = (props: any) => {
                         <td><label>Hobbies</label></td>
                         <td>
                             <Field name="hobbies"
-                                component="textarea"
+                                component={renderTextarea}
                                 type="text"
                                 placeholder="Hobbies" />
                         </td>
                         <td><label>Blood Group</label></td>
                         <td>
                             <Field name="bloodGroup"
-                                component="input"
+                                component={renderInput}
                                 type="text"
-                                placeholder="Blood Group" />
+                                placeholder="Blood Group"
+                                warn={validator.alphaNumeric} />
                         </td>
                     </tr>
                     <tr>
@@ -106,16 +113,16 @@ const ProfileForm = (props: any) => {
                         <td><label>Class</label></td>
                         <td>
                             <Field name="class"
-                                component="input"
+                                component={renderInput}
                                 type="text"
                                 placeholder="Class" />
                         </td>
                         <td><label>Section</label></td>
                         <td>
                             <Field name="section"
-                                component="input"
-                                type="text"
-                                placeholder="Section" />
+                                component={renderSelect}
+                                placeholder="Select section"
+                                options={Section} />
                         </td>
                     </tr>
                     <tr>
@@ -132,5 +139,6 @@ const ProfileForm = (props: any) => {
 }
 
 export default reduxForm({
-    form: 'profileForm' // a unique identifier for this form    
+    enableReinitialize: true,
+    form: 'profileForm', // a unique identifier for this form        
 })(ProfileForm)

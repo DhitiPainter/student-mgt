@@ -76,4 +76,17 @@ select{
     border-style: solid;
     /* border-color: initial; */
     border-image: initial;
+    width: 100%;
+}
+
+.error{
+  font-size: 12px;
+  float: left;
+  color: red;
+}
+
+.warn{
+  font-size: 12px;
+  float: left;
+  color: #00a000;
 }

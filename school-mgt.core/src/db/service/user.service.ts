@@ -4,6 +4,7 @@ import { User } from '../models/user';
 import { jwtSecret } from './../../common/constant';
 import db from './../../db/helper';
 import mongoose from 'mongoose';
+import _ from "lodash";
 const UserModel = db.User;
 const UserDetailsModel = db.UserDetails;
 const ClassSectionModel = db.ClassSection;
@@ -38,13 +39,12 @@ export async function getAll() {
 export async function getById(id: any) {
     try {
         const user: any = id ? await UserModel.findById(id).select('-hash').select('-__v') : null;
-        const userDetail: any = user && user.userDetails ? await UserDetailsModel.findById(user.userDetails).select('-__v') : null;
-        const classSection: any = userDetail && userDetail.class ? await ClassSectionModel.findById(userDetail.class).select('-__v') : null;
+        const userDetail: any = user && user.userDetails ? await UserDetailsModel.findById(user.userDetails).select('-__v').select('-_id') : null;
+        const classSection: any = userDetail && userDetail.class ? await ClassSectionModel.findById(userDetail.class).select('-__v').select('-_id') : null;
         let profile: any = {};
         profile = user ? user.toObject() : {};
         if (userDetail) {
-            profile.userDetails = userDetail.toObject();
-            profile.userDetails.class = classSection ? classSection.toObject() : {};
+            profile = _.merge(profile, userDetail.toObject(), classSection.toObject());
         }
         return profile;
     } catch (error) {
@@ -90,8 +90,8 @@ export async function update(id: any, userParam: any, token: string) {
                         return ClassSectionModel.findById(mongoose.Types.ObjectId(classId)).then((classData: any) => {
                             // Create classSectionModel regardless of data present
                             const classSection = new ClassSectionModel(classData)
-                            Object.assign(classSection, userParam.userDetails.class);
-                            Object.assign(userDetail, userParam.userDetails);
+                            updateUserClassSection(classSection, userParam)
+                            updateUserDetails(userDetail, userParam)
 
                             classId = userDetail.class ? userDetail.class : classSection._id;
                             // Assign classSection's ObjectId
@@ -106,12 +106,14 @@ export async function update(id: any, userParam: any, token: string) {
                 });
             }
             else {
-                // Add Class Section to collection
-                const classSection = new ClassSectionModel(userParam.userDetails.class);
+                // Add Class Section to collection                
+                const classSection: any = new ClassSectionModel();
 
                 // Add User Details to collection with classSection objectId            
-                const userDetails: any = new UserDetailsModel(userParam.userDetails);
+                const userDetails: any = new UserDetailsModel();
 
+                updateUserClassSection(classSection, userParam)
+                updateUserDetails(userDetails, userParam)
                 // Assign objectIds to respective collection documents
                 userDetails.class = classSection._id;
                 userDetailsId = userDetails._id;
@@ -123,6 +125,23 @@ export async function update(id: any, userParam: any, token: string) {
             }
         }
     });
+}
+
+function updateUserClassSection(oldClass: any, newClass: any) {
+    !oldClass ? oldClass = new ClassSectionModel() : null;
+    newClass.class ? oldClass.class = newClass.class : null;
+    newClass.section ? oldClass.section = newClass.section : null;
+}
+
+function updateUserDetails(oldUserDetails: any, newUserDetails: any) {
+    !oldUserDetails ? oldUserDetails = new UserDetailsModel() : null;
+    newUserDetails.address1 ? oldUserDetails.address1 = newUserDetails.address1 : null;
+    newUserDetails.address2 ? oldUserDetails.address2 = newUserDetails.address2 : null;
+    newUserDetails.city ? oldUserDetails.city = newUserDetails.city : null;
+    newUserDetails.pincode ? oldUserDetails.pincode = newUserDetails.pincode : null;
+    newUserDetails.email ? oldUserDetails.email = newUserDetails.email : null;
+    newUserDetails.hobbies ? oldUserDetails.hobbies = newUserDetails.hobbies : null;
+    newUserDetails.bloodGroup ? oldUserDetails.bloodGroup = newUserDetails.bloodGroup : null;
 }
 
 function updateUser(userData: any, userParam: any, userId: any, userDetailsId: any, userDetails: any, classSection: any): any {
@@ -137,11 +156,11 @@ function updateUser(userData: any, userParam: any, userId: any, userDetailsId: a
 
     // Update document
     return user.save().then((userModel: any) => {
-        let profile: any = {};
-        profile = userModel.toObject();
-        profile.userDetails = userDetails.toObject();
-        profile.userDetails.class = classSection.toObject();
-        return { message: "Data updated successfully", userProfile: profile };
+        let userM = userModel;
+        let userDetail = userDetails;
+        let section = classSection;
+
+        return { message: "Data updated successfully", userProfile: _.merge(userM, userDetail, section) };
     }, (err: any) => {
         console.log(err);
         return { message: "Internal server error occurred" };

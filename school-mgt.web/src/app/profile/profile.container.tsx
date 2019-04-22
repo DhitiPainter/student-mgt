@@ -8,7 +8,6 @@ import ProfileForm from './ProfileForm';
 interface IProfileProps {
     updateUserProfile: any;
     getUserProfile: any;
-    userProfile: object;
     userProfileForm: object;
 }
 
@@ -23,7 +22,7 @@ class ProfileContainer extends React.Component<IProfileProps> {
 
     public handleSubmit(values: any) {
         this.setState({ submitted: true });
-        if (values.firstName && values.lastName) {
+        if (values) {
             this.props.updateUserProfile(this.props.userProfileForm, this.user.id);
         }
     }
@@ -32,21 +31,17 @@ class ProfileContainer extends React.Component<IProfileProps> {
         return (
             <div className="profile">
                 <h2>Update Profile</h2><hr />
-                <ProfileForm onSubmit={this.handleSubmit} initialValues={this.props.userProfile} {...this.props} />
+                <ProfileForm onSubmit={this.handleSubmit} {...this.props} />
             </div>
         );
     }
 }
 
 function mapStateToProps(state: any, ownProps: any) {
-    state && state.profileReducer && state.profileReducer.userDetails && state.form.profileForm
-        ? state.form.profileForm.initial = state.profileReducer.userDetails
-        // tslint:disable-next-line: no-unused-expression
-        : null;
     return {
+        initialValues: state && state.profileReducer && state.profileReducer.userDetails ? state.profileReducer.userDetails : {},
         isAuthenticated: state && state.userReducer && state.userReducer.isAuthenticated ? state.userReducer.isAuthenticated : false,
-        userProfile: state && state.profileReducer && state.profileReducer.userDetails ? state.profileReducer.userDetails : {},
-        userProfileForm: state && state.form.profileForm && state.form.profileForm.values ? state.form.profileForm.values : {}
+        userProfileForm: state && state.form.profileForm && state.form.profileForm.values ? state.form.profileForm.values : {},
     };
 }
 

@@ -4,3 +4,11 @@ export enum Roles {
     admin = 3,
     student = 4
 }
+
+export enum Section1 {
+    A,
+    B,
+    C,
+    D,
+    E
+}
