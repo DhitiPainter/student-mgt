@@ -22,7 +22,8 @@ export function updateProfile(user: any, userId: any) {
             const profile = await userService.updateProfile(user, userId);
             // profile.status.toString() === '200' ?
             //     dispatch(alertActions.success(profile.data.message)) : null;
-            return (dispatch(event(profileConstants.getProfile, profile.data)));
+            dispatch(alertActions.success(profile.data.message));
+            return (dispatch(event(profileConstants.updateProfile, profile.data.userProfile)));
         } catch (error) {
             return (dispatch(alertActions.error(error)));
         }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from "react-redux";
-import { Route } from 'react-router-dom';
+import { Redirect, Route } from 'react-router-dom';
 
 import { AttendanceComponent } from 'src/app/attendance/attendance.component';
 // import { CoreActions } from 'src/store/actions';
@@ -36,15 +36,17 @@ class LayoutComponent extends React.Component<ILayout> {
 
     public render() {
         return (
-            <div className="layout-wrapper">
-                <Header {...this.props} logout={this.handleLogout} />
-                <SideBar {...this.props} />
-                <div className="layout-main">
-                    <Route path="/dashboard" component={DashboardComponent} />
-                    <Route path="/attendence" component={AttendanceComponent} />
-                    <Route path="/editprofile" component={ProfileContainer} />
+            this.props.isAuthenticated ?
+                <div className="layout-wrapper">
+                    <Header {...this.props} logout={this.handleLogout} />
+                    <SideBar {...this.props} />
+                    <div className="layout-main">
+                        <Route path="/dashboard" component={DashboardComponent} />
+                        <Route path="/attendence" component={AttendanceComponent} />
+                        <Route path="/editprofile" component={ProfileContainer} />
+                    </div>
                 </div>
-            </div>
+                : <Redirect to="/" />
         );
     }
 }

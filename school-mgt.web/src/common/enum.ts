@@ -5,7 +5,7 @@ export enum Roles {
     student = 4
 }
 
-export enum Section1 {
+export enum Section {
     A,
     B,
     C,

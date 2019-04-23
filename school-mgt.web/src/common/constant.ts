@@ -56,12 +56,18 @@ export const LocalStorage = {
     user: 'userData'
 }
 
-export const Section = [
-    { name: 'A', value: 'A' },
-    { name: 'B', value: 'B' },
-    { name: 'C', value: 'C' },
-    { name: 'D', value: 'D' },
-    { name: 'E', value: 'E' }
-]
-
-
+export const PieChartColorConfig = {
+    datasets: [
+        {
+            backgroundColor: [
+                "#1dc1ed",
+                "#00ce98",
+                "#cdba03"
+            ],
+            hoverBackgroundColor: [
+                "#127894",
+                "#00a275",
+                "#c2b000"
+            ]
+        }],
+}

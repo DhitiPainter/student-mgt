@@ -4,9 +4,9 @@ import { alertConstants } from '../../common/constant';
 export function alert(state = {}, action: any) {
     switch (action.type) {
         case alertConstants.SUCCESS:
-            toast.success(action.message);
+            return toast.success(action.message);
         case alertConstants.ERROR:
-            toast.error(action.message);
+            return toast.error(action.message);
         case alertConstants.CLEAR:
             return {};
         default:

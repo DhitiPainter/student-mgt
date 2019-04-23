@@ -2,22 +2,36 @@ import { Button } from 'primereact/button';
 import * as React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { renderInput, renderSelect, renderTextarea } from "../../common/hocs/render-field.hoc";
-import { Section } from "./../../common/constant";
-import { Roles } from "./../../common/enum";
+import { Roles, Section } from "./../../common/enum";
 import * as enumHelper from "./../../common/enum.helper";
 import * as validator from "./../../common/form-validator";
 import './profile.css';
 
 const ProfileForm = (props: any) => {
+    // let isSelectedRoleStudentOrTeacher: boolean = handleRolesChange;
+    const rolesEnum = Roles;
     const roles = enumHelper.getNamesAndValues(Roles);
+    const sections = enumHelper.getStringNamesAndValues(Section);
+
     const { handleSubmit, pristine, reset, submitting, initialValues } = props
+
+    // props.initialValues.role === (rolesEnum.principal || rolesEnum.principal)
+    //     ? isSelectedRoleStudentOrTeacher = false
+    //     : isSelectedRoleStudentOrTeacher = true
+
+    const isSelectedRoleStudentOrTeacher = () => {
+        return (props.userProfileForm.role === rolesEnum.principal.toString() || props.userProfileForm.role === rolesEnum.admin.toString()
+            ? false
+            : true)
+    }
+
     return (
         <form onSubmit={handleSubmit} defaultValue={initialValues} >
             <table>
                 <tbody>
                     <tr>
                         <td>
-                            <label>First Name</label>
+                            <label className="required">First Name</label>
                         </td>
                         <td>
                             <Field name="firstName"
@@ -28,7 +42,7 @@ const ProfileForm = (props: any) => {
                                 warn={validator.alphaNumeric} />
                         </td>
                         <td>
-                            <label>Last Name</label>
+                            <label className="required">Last Name</label>
                         </td>
                         <td>
                             <Field name="lastName"
@@ -39,10 +53,10 @@ const ProfileForm = (props: any) => {
                         </td>
                     </tr>
                     <tr>
-                        <td><label>Role</label></td>
+                        <td><label className="required">Role</label></td>
                         <td>
                             <Field name="role"
-                                component="select"
+                                component={renderSelect}
                                 placeholder="Select user role"
                                 options={roles}
                                 validate={validator.required} />
@@ -52,7 +66,7 @@ const ProfileForm = (props: any) => {
                         <td><label><h3>Contact Info</h3></label></td>
                     </tr>
                     <tr>
-                        <td><label>Address 1</label></td>
+                        <td><label className="required">Address 1</label></td>
                         <td>
                             <Field name="address1"
                                 component={renderInput}
@@ -106,25 +120,41 @@ const ProfileForm = (props: any) => {
                                 warn={validator.alphaNumeric} />
                         </td>
                     </tr>
-                    <tr>
-                        <td><label><h3>Academic Info</h3></label></td>
-                    </tr>
-                    <tr>
-                        <td><label>Class</label></td>
-                        <td>
-                            <Field name="class"
-                                component={renderInput}
-                                type="text"
-                                placeholder="Class" />
-                        </td>
-                        <td><label>Section</label></td>
-                        <td>
-                            <Field name="section"
-                                component={renderSelect}
-                                placeholder="Select section"
-                                options={Section} />
-                        </td>
-                    </tr>
+                    {
+                        isSelectedRoleStudentOrTeacher
+                            ?
+                            (<tr>
+                                <td><label><h3>Academic Info</h3></label></td>
+                            </tr>)
+                            : null
+                    }
+                    {
+                        isSelectedRoleStudentOrTeacher
+                            ? (
+                                // <div><tr>
+                                //     <td><label><h3>Academic Info</h3></label></td>
+                                // </tr>
+                                <tr>
+                                    <td><label>Class</label></td>
+                                    <td>
+                                        <Field name="class"
+                                            component={renderInput}
+                                            type="text"
+                                            placeholder="Class" />
+                                    </td>
+                                    <td><label>Section</label></td>
+                                    <td>
+                                        <Field name="section"
+                                            component={renderSelect}
+                                            placeholder="Select section"
+                                            options={sections} />
+                                    </td>
+                                </tr>
+                                // </div>
+                            )
+                            : null
+                    }
+
                     <tr>
                         <td /><td /><td />
                         <td>

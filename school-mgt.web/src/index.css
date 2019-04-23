@@ -90,3 +90,26 @@ select{
   float: left;
   color: #00a000;
 }
+
+.required::before {
+  content: '* ';
+  color: red;
+}
+
+/* Prime modifications */
+span.p-submenu-icon.pi.pi-fw.pi-caret-down {
+  margin-left: -4px !important;
+}
+span.p-menuitem-icon.pi.pi-fw.pi-user {
+  margin: 0;
+}
+ul.p-menubar-root-list {
+  margin-left: 85%
+}
+
+.p-card.p-component.ui-card-shadow{
+  width: 80%
+}
+.p-card.p-component.ui-card-shadow:hover{
+  width: 100%;
+}

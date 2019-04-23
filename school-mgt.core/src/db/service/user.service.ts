@@ -76,55 +76,59 @@ export async function create(userParam: User) {
 }
 
 export async function update(id: any, userParam: any, token: string) {
-    return UserModel.findById(mongoose.Types.ObjectId(id)).then((userData: any) => {
-        let userDetailsId: any;
-        if (userData) {
-            if (userData.userDetails) {
-                userDetailsId = userData.userDetails;
-                // Find user details data                
-                return UserDetailsModel.findById(mongoose.Types.ObjectId(userDetailsId)).then((userDetailsData: any) => {
-                    if (userDetailsData) {
-                        const userDetail: any = new UserDetailsModel(userDetailsData);
-                        let classId: any = userDetailsData.class;
-                        // Find class section data                        
-                        return ClassSectionModel.findById(mongoose.Types.ObjectId(classId)).then((classData: any) => {
-                            // Create classSectionModel regardless of data present
-                            const classSection = new ClassSectionModel(classData)
-                            updateUserClassSection(classSection, userParam)
-                            updateUserDetails(userDetail, userParam)
+    try {
+        return UserModel.findById(mongoose.Types.ObjectId(id)).then((userData: any) => {
+            let userDetailsId: any;
+            if (userData) {
+                if (userData.userDetails) {
+                    userDetailsId = userData.userDetails;
+                    // Find user details data                
+                    return UserDetailsModel.findById(mongoose.Types.ObjectId(userDetailsId)).then((userDetailsData: any) => {
+                        if (userDetailsData) {
+                            const userDetail: any = new UserDetailsModel(userDetailsData);
+                            let classId: any = userDetailsData.class;
+                            // Find class section data                        
+                            return ClassSectionModel.findById(mongoose.Types.ObjectId(classId)).then((classData: any) => {
+                                // Create classSectionModel regardless of data present
+                                const classSection = new ClassSectionModel(classData)
+                                updateUserClassSection(classSection, userParam)
+                                updateUserDetails(userDetail, userParam)
 
-                            classId = userDetail.class ? userDetail.class : classSection._id;
-                            // Assign classSection's ObjectId
-                            userDetail.class = mongoose.Types.ObjectId(classId);
+                                classId = userDetail.class ? userDetail.class : classSection._id;
+                                // Assign classSection's ObjectId
+                                userDetail.class = mongoose.Types.ObjectId(classId);
 
-                            // Update collection documents
-                            classSection.save();
-                            userDetail.save();
-                            return updateUser(userData, userParam, id, userDetailsId, userDetail, classSection);
-                        })
-                    }
-                });
+                                // Update collection documents
+                                classSection.save();
+                                userDetail.save();
+                                return updateUser(userData, userParam, id, userDetailsId, userDetail, classSection);
+                            })
+                        }
+                    });
+                }
+                else {
+                    // Add Class Section to collection                
+                    const classSection: any = new ClassSectionModel();
+
+                    // Add User Details to collection with classSection objectId            
+                    const userDetails: any = new UserDetailsModel();
+
+                    updateUserClassSection(classSection, userParam)
+                    updateUserDetails(userDetails, userParam)
+                    // Assign objectIds to respective collection documents
+                    userDetails.class = classSection._id;
+                    userDetailsId = userDetails._id;
+
+                    // Create/update collection documents
+                    classSection.save();
+                    userDetails.save();
+                    return updateUser(userData, userParam, id, userDetailsId, userDetails, classSection);
+                }
             }
-            else {
-                // Add Class Section to collection                
-                const classSection: any = new ClassSectionModel();
-
-                // Add User Details to collection with classSection objectId            
-                const userDetails: any = new UserDetailsModel();
-
-                updateUserClassSection(classSection, userParam)
-                updateUserDetails(userDetails, userParam)
-                // Assign objectIds to respective collection documents
-                userDetails.class = classSection._id;
-                userDetailsId = userDetails._id;
-
-                // Create/update collection documents
-                classSection.save();
-                userDetails.save();
-                return updateUser(userData, userParam, id, userDetailsId, userDetails, classSection);
-            }
-        }
-    });
+        });
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 function updateUserClassSection(oldClass: any, newClass: any) {

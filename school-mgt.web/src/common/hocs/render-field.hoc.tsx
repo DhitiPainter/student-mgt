@@ -37,7 +37,7 @@ const renderSelect = ({
 }) => (
         <div>
             <select {...input} placeholder={placeholder} type={type} >
-                <option>-- {placeholder} --</option>
+                <option value=''>-- {placeholder} --</option>
                 {
                     options
                         ? options.map((el: any) =>
